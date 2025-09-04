@@ -5,8 +5,8 @@ Compiles a DAG JSON into LangGraph JSON. Includes validation for structure and c
 ## Install / Run (Poetry)
 
 - Ensure Poetry is installed: https://python-poetry.org/docs/#installation
-- Create an in-project virtualenv and install deps:
-  - `make setup` (uses Poetry and `.venv` in project)
+- Create an in-project virtualenv and install deps (creates `.venv`):
+  - `make setup`
 - Run tests:
   - `make test`
 - Convert a DAG file via console script:
@@ -16,7 +16,7 @@ Compiles a DAG JSON into LangGraph JSON. Includes validation for structure and c
 
 ## Makefile Targets
 
-- `setup`: `poetry install --with dev` with `.venv` in project.
+- `setup`: creates/uses `.venv` and installs deps via Poetry.
 - `test`: `poetry run pytest -q`.
 - `run-sample`: run CLI on `examples/sample_dag.json`.
 - `lock`: create/update `poetry.lock` without resolving newer versions.
