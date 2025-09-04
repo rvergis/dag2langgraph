@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dag2langgraph"
-version = "0.1.0"
+version = "0.1.1"
 description = "Converts a Directed Acyclic Graph (DAG) JSON to LangGraph JSON format."
 authors = ["Ron Vergis <ron@vergis.io>"]
 license = "MIT"
