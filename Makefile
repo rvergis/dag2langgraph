@@ -23,7 +23,7 @@ run-sample:
 	$(POETRY) run dag2langgraph examples/sample_dag.json
 
 lock:
-	$(POETRY) lock --no-update
+	$(POETRY) lock
 
 clean:
 	rm -rf $(VENV) .pytest_cache .ruff_cache .mypy_cache

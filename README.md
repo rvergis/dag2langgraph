@@ -19,7 +19,7 @@ Compiles a DAG JSON into LangGraph JSON. Includes validation for structure and c
 - `setup`: creates/uses `.venv` and installs deps via Poetry.
 - `test`: `poetry run pytest -q`.
 - `run-sample`: run CLI on `examples/sample_dag.json`.
-- `lock`: create/update `poetry.lock` without resolving newer versions.
+- `lock`: (re)generate `poetry.lock` to match `pyproject.toml`.
 - `clean`: remove `.venv` and caches.
 
 ## Publishing
