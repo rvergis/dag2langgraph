@@ -1,0 +1,7 @@
+{
+  "nodes": [
+    {"id": "a", "type": "function", "name": "A"}
+  ],
+  "edges": []
+}
+

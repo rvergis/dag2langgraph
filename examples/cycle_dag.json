@@ -1,0 +1,12 @@
+{
+  "nodes": [
+    {"id": "a", "type": "function", "name": "A"},
+    {"id": "b", "type": "tool", "name": "B"}
+  ],
+  "edges": [
+    {"source": "a", "target": "b"},
+    {"source": "b", "target": "a"}
+  ],
+  "entry_point": "a"
+}
+

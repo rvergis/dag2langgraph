@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {"id": "start", "type": "function", "name": "StartFn"},
+    {"id": "toolA", "type": "tool", "name": "Lookup"},
+    {"id": "end", "type": "function", "name": "Finish"}
+  ],
+  "edges": [
+    {"source": "start", "target": "toolA"},
+    {"source": "toolA", "target": "end", "condition": "ok"}
+  ],
+  "entry_point": "start"
+}
+

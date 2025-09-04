@@ -1,0 +1,68 @@
+name: Release Patch Version
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  bump-tag-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: '1.8.3'
+
+      - name: Show current version
+        run: echo "OLD_VERSION=$(poetry version -s)" >> "$GITHUB_ENV"
+
+      - name: Bump patch version
+        run: |
+          poetry version patch
+          echo "NEW_VERSION=$(poetry version -s)" >> "$GITHUB_ENV"
+
+      - name: Commit version bump
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add pyproject.toml
+          git commit -m "chore(release): v$NEW_VERSION"
+
+      - name: Create tag
+        run: |
+          git tag v$NEW_VERSION
+
+      - name: Push changes and tags
+        run: |
+          git push origin HEAD
+          git push origin --tags
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.NEW_VERSION }}
+          name: v${{ env.NEW_VERSION }}
+          generate_release_notes: true
+
+      # Optionally trigger publish in same workflow (uncomment to publish immediately)
+      # - name: Build package
+      #   run: poetry build
+      # - name: Publish to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     packages-dir: dist
+
