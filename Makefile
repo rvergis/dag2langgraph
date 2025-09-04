@@ -1,10 +1,10 @@
 POETRY := poetry
 VENV := .venv
 
-.PHONY: help setup venv test run-sample clean lock
+.PHONY: help setup venv test run-sample clean lock patch publish
 
 help:
-	@echo "Targets: setup, test, run-sample, lock, clean"
+	@echo "Targets: setup, test, run-sample, lock, patch, publish, clean"
 
 # Ensure in-project venv exists and dependencies are installed via Poetry
 venv:
@@ -27,3 +27,21 @@ lock:
 
 clean:
 	rm -rf $(VENV) .pytest_cache .ruff_cache .mypy_cache
+
+# Bump patch version, commit, and tag (vX.Y.Z)
+patch:
+	@$(POETRY) version patch
+	@NEWVER="$$( $(POETRY) version -s )"; \
+	  echo "New version: $$NEWVER"; \
+	  git add pyproject.toml; \
+	  git commit -m "chore(release): v$$NEWVER" >/dev/null 2>&1 || echo "(no changes to commit)"; \
+	  git tag v$$NEWVER; \
+	  echo "Created tag v$$NEWVER. Run 'make publish' to push and trigger release."
+
+# Push current branch and version tag to origin to trigger GitHub Actions publish
+publish:
+	@NEWVER="$$( $(POETRY) version -s )"; \
+	  echo "Pushing branch and tag v$$NEWVER to origin..."; \
+	  git push origin HEAD; \
+	  git push origin v$$NEWVER; \
+	  echo "Pushed. If workflows are configured, PyPI publish will run."

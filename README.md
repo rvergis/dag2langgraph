@@ -20,6 +20,8 @@ Compiles a DAG JSON into LangGraph JSON. Includes validation for structure and c
 - `test`: `poetry run pytest -q`.
 - `run-sample`: run CLI on `examples/sample_dag.json`.
 - `lock`: (re)generate `poetry.lock` to match `pyproject.toml`.
+- `patch`: bump patch version via Poetry, commit, and tag `vX.Y.Z`.
+- `publish`: push branch and tag to `origin` (triggers GitHub Actions publish to PyPI).
 - `clean`: remove `.venv` and caches.
 
 ## Publishing
