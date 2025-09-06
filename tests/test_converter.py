@@ -37,6 +37,24 @@ def test_convert_success_structure():
     assert cond_edge["condition"] == "ok"
 
 
+def test_bool_condition_edges():
+    dag = {
+        "nodes": [
+            {"id": "start", "type": "function", "name": "StartFn"},
+            {"id": "yes", "type": "function", "name": "YesFn"},
+            {"id": "no", "type": "function", "name": "NoFn"},
+        ],
+        "edges": [
+            {"source": "start", "target": "yes", "condition": True},
+            {"source": "start", "target": "no", "condition": False},
+        ],
+        "entry_point": "start",
+    }
+    out = convert_dag_to_langgraph(dag)
+    conds = {e["condition"] for e in out["edges"]}
+    assert conds == {"true", "false"}
+
+
 def test_missing_entry_point_error():
     dag = load_example("missing_entry_point.json")
     with pytest.raises(DagValidationError) as exc:

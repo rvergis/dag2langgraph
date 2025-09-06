@@ -27,7 +27,11 @@ def _validate_edge(edge: Dict[str, Any], node_ids: Set[str]) -> None:
     _ensure_bool("target" in edge and isinstance(edge["target"], str) and edge["target"], INVALID_DAG_ERROR)
     _ensure_bool(edge["source"] in node_ids and edge["target"] in node_ids, INVALID_DAG_ERROR)
     if "condition" in edge:
-        _ensure_bool(edge["condition"] is None or isinstance(edge["condition"], str), INVALID_DAG_ERROR)
+        _ensure_bool(
+            edge["condition"] is None
+            or isinstance(edge["condition"], (str, bool)),
+            INVALID_DAG_ERROR,
+        )
 
 
 def _has_cycle_kahn(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> bool:
@@ -94,7 +98,11 @@ def map_edges(validated_edges: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     for e in validated_edges:
         item: Dict[str, Any] = {"source": e["source"], "target": e["target"]}
         if "condition" in e and e["condition"] is not None:
-            item["condition"] = e["condition"]
+            cond = e["condition"]
+            if isinstance(cond, bool):
+                item["condition"] = "true" if cond else "false"
+            else:
+                item["condition"] = cond
         out.append(item)
     return out
 
